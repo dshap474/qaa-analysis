@@ -1,0 +1,14 @@
+application,action,selector_hex,signature,abi_url
+Uniswap V2,swapExactTokensForTokens,0x38ed1739,swapExactTokensForTokens(uint256,uint256,address[],address,uint256):contentReference[oaicite:102]{index=102},
+Uniswap V2,swapExactETHForTokens,0x7ff36ab5,swapExactETHForTokens(uint256,address[],address,uint256):contentReference[oaicite:104]{index=104},
+Uniswap V2,addLiquidity,0xe8e33700,addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256):contentReference[oaicite:106]{index=106}:contentReference[oaicite:107]{index=107},
+Uniswap V3,swapExactInputSingle,0x414bf389,exactInputSingle((address,address,uint24,address,uint256,uint256,uint256,uint160)):contentReference[oaicite:109]{index=109},:contentReference[oaicite:110]{index=110}
+Uniswap V3,swapExactInput,0xb858183f,exactInput((bytes,address,uint256,uint256)):contentReference[oaicite:111]{index=111},:contentReference[oaicite:112]{index=112}
+Aave V2,deposit,0xe8eda9df,deposit(address,uint256,address,uint16):contentReference[oaicite:113]{index=113},:contentReference[oaicite:114]{index=114}
+Aave V2,borrow,0xc5ebeaec,borrow(address,uint256,uint256,uint16,address):contentReference[oaicite:115]{index=115},:contentReference[oaicite:116]{index=116}
+Aave V3,supply,0xeaeb1b06,supply(address,uint256,address,uint16):contentReference[oaicite:117]{index=117},:contentReference[oaicite:118]{index=118}
+Aave V3,borrow,0x44c028fe,borrow(address,uint256,uint256,uint16,address):contentReference[oaicite:119]{index=119},:contentReference[oaicite:120]{index=120}
+Compound V2,mint,0xa0712d68,mint(uint256):contentReference[oaicite:121]{index=121},:contentReference[oaicite:122]{index=122}
+Compound V2,redeem,0xdb006a75,redeem(uint256):contentReference[oaicite:123]{index=123},:contentReference[oaicite:124]{index=124}
+Curve,exchange,0x3df02124,exchange(int128,int128,uint256,uint256):contentReference[oaicite:125]{index=125},:contentReference[oaicite:126]{index=126}
+Curve,add_liquidity,0x0b4c7e4d,add_liquidity(uint256[NUM_COINS],uint256):contentReference[oaicite:127]{index=127},:contentReference[oaicite:128]{index=128}
