@@ -1,0 +1,6 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+*Always* create testing files inside of the relevant modules **"tests"** folder, *never* in a root directory.

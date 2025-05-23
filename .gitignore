@@ -1,0 +1,36 @@
+# Cache/Data/Output - From XML Notes & Common Practice
+data/
+.repomix/
+htmlcov/
+
+# Dependencies
+**/node_modules/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.github/
+
+# IDE/OS Files - From XML Notes & Common Practice
+# .git/ # Usually not needed in root unless nested, but safe
+.pytest_cache/
+.vscode/
+.idea/
+.env*
+.DS_Store
+Thumbs.db
+*.log
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+/out/ # Next.js build output
+
+# Poetry / Python specific
+poetry.lock # Often committed, but can be ignored if desired
+*.egg
+*.sqlite3
+.venv/
+
+# Add any other project-specific ignores here

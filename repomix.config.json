@@ -1,0 +1,27 @@
+{
+  "output": {
+    "style": "xml",
+    "filePath": ".repomix/QAA-ANALYSIS.xml",
+    "removeComments": true,
+    "showLineNumbers": false,
+    "topFilesLength": 10,
+    "compress": false
+  },
+  "ignore": {
+    "customPatterns": [
+      "**/.repomix/**",
+      "**/.cursor/**",
+      "**/data/**",
+      "**/htmlcov/**",
+      "**/venv/**",
+      "**/__pycache__/**",
+      "**/.project/**",
+      "**/.vscode/**",
+      "**/.git/**",
+      "**/data/**"
+    ]
+  },
+  "git": {
+    "respectGitignore": false
+  }
+}

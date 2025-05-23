@@ -1,0 +1,9 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+Run & provide **powershell** commands by default.
+
+
+Use poetry run -C <module> python/pytest ... to run programs.

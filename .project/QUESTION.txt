@@ -1,0 +1,963 @@
+Here is my codebase.
+
+As you can see in my Plan.md I want to pull in any data that could be important to clustering addresses by type of user, and then see how much each group contributes to REV. Doe sthi smake sense?
+
+Analyze, and think deeply. How can we improve this plan? do you have any questions? dont code yet
+
+This file is a merged representation of a subset of the codebase, containing files not matching ignore patterns, combined into a single document by Repomix.
+The content has been processed where comments have been removed.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching these patterns are excluded: **/data/**
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Code comments have been removed from supported file types
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+.cursor/rules/banner.mdc
+.cursor/rules/run_commands.mdc
+.cursor/rules/testing.mdc
+.cursor/rules/tree.mdc
+.gitignore
+ethereum_dataset_documentation.md
+pyproject.toml
+repomix.config.json
+src/qaa_analysis/__init__.py
+src/qaa_analysis/config.py
+src/qaa_analysis/etl.py
+src/qaa_analysis/metadata_explorer.py
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path=".cursor/rules/banner.mdc">
+---
+description: 
+globs: 
+alwaysApply: true
+---
+When you encounter BANNER(<section_title>) expand it to exactly:
+
+# ------------------------------------------------------------------------------
+# <section_title>
+# ------------------------------------------------------------------------------
+
+Use this BANNER for all section headers.
+</file>
+
+<file path=".cursor/rules/run_commands.mdc">
+---
+description: 
+globs: 
+alwaysApply: true
+---
+Run & provide **powershell** commands by default.
+
+
+Use poetry run -C <module> python/pytest ... to run programs.
+</file>
+
+<file path=".cursor/rules/testing.mdc">
+---
+description: 
+globs: 
+alwaysApply: true
+---
+*Always* create testing files inside of the relevant modules **"tests"** folder, *never* in a root directory.
+</file>
+
+<file path=".cursor/rules/tree.mdc">
+---
+description: 
+globs: 
+alwaysApply: true
+---
+Project Tree: 
+
+seven7s
+├── .notes/
+├── .project/
+├── .pytest_cache/
+├── .repomix/
+├── .venv/
+├── s7-backend/
+│   ├── docs/
+│   ├── scripts/
+│   ├── src/
+│   ├── tests/
+├── s7-config/
+│   └── src/
+├── s7-core/
+│   ├── data/
+│   ├── docs/
+│   ├── exports/
+│   ├── notebooks/
+│   ├── scripts/
+│   ├── src/
+│   ├── tests/
+│   └── utils/
+├── s7-data-sources/
+│   ├── docs/
+│   ├── scripts/
+│   ├── src/
+│   └── tests/
+├── s7-db/
+│   ├── analytics_database/
+│   ├── intelligence_database/
+│   ├── market_database/
+│   └── velo_database/
+├── s7-features/
+│   └── src/
+├── s7-frontend/
+│   ├── app/
+│   ├── assets/
+│   ├── components/
+│   ├── docs/
+│   ├── examples/
+│   ├── hooks/
+│   ├── lib/
+│   ├── public/
+│   ├── scripts/
+│   ├── services/
+│   └── tests/
+├── s7-intelligence/
+│   ├── credentials/
+│   ├── data/
+│   ├── docs/
+│   ├── prompts/
+│   ├── scripts/
+│   ├── src/
+│   ├── tests/
+│   └── utils/
+├── s7-orchestration/
+│   └── src/
+├── s7-utils/
+│   ├── scripts/
+│   ├── src/
+│   └── tests/
+├── utils/
+├── .gitignore
+├── poetry.lock
+├── poetry.toml
+├── pyproject.toml
+├── README.md
+
+└── repomix.config.json
+</file>
+
+<file path=".gitignore">
+# Cache/Data/Output - From XML Notes & Common Practice
+data/
+.notes/
+.repomix/
+
+# Dependencies
+**/node_modules/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.github/
+
+# IDE/OS Files - From XML Notes & Common Practice
+# .git/ # Usually not needed in root unless nested, but safe
+.pytest_cache/
+.vscode/
+.idea/
+.env*
+.DS_Store
+Thumbs.db
+*.log
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+/out/ # Next.js build output
+
+# Poetry / Python specific
+poetry.lock # Often committed, but can be ignored if desired
+*.egg
+*.sqlite3
+.venv/
+
+# Add any other project-specific ignores here
+</file>
+
+<file path="ethereum_dataset_documentation.md">
+# BigQuery Ethereum Dataset Documentation
+
+Generated: 2025-05-22 12:54:23
+Dataset: bigquery-public-data.crypto_ethereum
+Project: qaa-analysis
+
+## Dataset Overview
+
+The Ethereum public dataset contains blockchain data from genesis to near real-time.
+
+### Available Tables
+
+| Table Name | Type | Description |
+|------------|------|-------------|
+| blocks | BASE TABLE | Block headers and metadata |
+| transactions | BASE TABLE | All Ethereum transactions |
+| logs | BASE TABLE | Smart contract event logs |
+| traces | BASE TABLE | Internal transactions and calls |
+| amended_tokens | VIEW | Corrected token information |
+| balances | BASE TABLE | Historical address balances |
+| contracts | BASE TABLE | Contract creation information |
+| load_metadata | BASE TABLE | Specialized data table |
+| sessions | BASE TABLE | User session analytics |
+| token_transfers | BASE TABLE | ERC-20 transfer events |
+| tokens | BASE TABLE | ERC-20 token metadata |
+
+## Table Schemas
+
+### blocks
+
+Error fetching schema for blocks: 400 Unrecognized name: description at [9:9]; reason: invalidQuery, location: query, message: Unrecognized name: description at [9:9]
+
+Location: US
+Job ID: 625f762b-3326-40d2-80b5-c05ff0fb1ba5
+
+
+### transactions
+
+Error fetching schema for transactions: 400 Unrecognized name: description at [9:9]; reason: invalidQuery, location: query, message: Unrecognized name: description at [9:9]
+
+Location: US
+Job ID: feaf22d1-79e5-40c0-a80a-128459f45aa1
+
+
+### logs
+
+Error fetching schema for logs: 400 Unrecognized name: description at [9:9]; reason: invalidQuery, location: query, message: Unrecognized name: description at [9:9]
+
+Location: US
+Job ID: 75e8e4af-c492-4544-9e00-a749b7747543
+
+
+### traces
+
+Error fetching schema for traces: 400 Unrecognized name: description at [9:9]; reason: invalidQuery, location: query, message: Unrecognized name: description at [9:9]
+
+Location: US
+Job ID: 3fcca5d5-82fc-4510-9e5c-183ee0629a19
+
+
+### token_transfers
+
+Error fetching schema for token_transfers: 400 Unrecognized name: description at [9:9]; reason: invalidQuery, location: query, message: Unrecognized name: description at [9:9]
+
+Location: US
+Job ID: 70252173-0229-430e-a102-fd6603679321
+
+
+## Key Relationships
+
+### Primary Keys and Joins
+
+1. **blocks** ↔ **transactions**
+   - Join on: blocks.number = transactions.block_number
+   - Relationship: 1 block → many transactions
+
+2. **transactions** ↔ **logs**
+   - Join on: transactions.hash = logs.transaction_hash
+   - Relationship: 1 transaction → many logs
+
+3. **transactions** ↔ **traces**
+   - Join on: transactions.hash = traces.transaction_hash
+   - Relationship: 1 transaction → many traces
+
+4. **logs** ↔ **token_transfers**
+   - Token transfers are decoded from specific log entries
+   - Join on: logs.transaction_hash = token_transfers.transaction_hash
+
+
+## Important Fields for Analysis
+
+### Address Analytics
+- transactions.from_address - Transaction sender
+- transactions.to_address - Transaction recipient  
+- traces.from_address - Internal transaction sender
+- traces.to_address - Internal transaction recipient
+- token_transfers.from_address - Token sender
+- token_transfers.to_address - Token recipient
+
+### Value Metrics
+- transactions.value - ETH transferred (in wei, divide by 1e18 for ETH)
+- transactions.gas_price - Price per gas unit (in wei)
+- transactions.receipt_gas_used - Actual gas consumed
+- token_transfers.value - Token amount transferred
+
+### Time Series
+- blocks.timestamp - Block creation time
+- transactions.block_timestamp - Transaction timestamp (partitioned)
+
+### Gas/Fee Calculations
+sql
+-- Transaction fee in ETH
+(receipt_gas_used * gas_price) / 1e18 as fee_eth
+
+-- Transaction cost in ETH  
+(receipt_gas_used * gas_price + value) / 1e18 as total_cost_eth
+
+
+
+## Efficient Query Patterns
+
+### Cost Optimization Rules
+
+1. **ALWAYS use partition filters:**
+   
+sql
+   WHERE DATE(block_timestamp) = '2025-05-21'
+   -- or
+   WHERE DATE(block_timestamp) BETWEEN '2025-05-01' AND '2025-05-07'
+
+
+2. **Use approximate functions for statistics:**
+   
+sql
+   SELECT APPROX_COUNT_DISTINCT(from_address) as unique_addresses
+
+
+3. **Limit data scanned with sampling:**
+   
+sql
+   SELECT * FROM `...transactions`
+   WHERE DATE(block_timestamp) = '2025-05-21'
+     AND RAND() < 0.001  -- 0.1% sample
+
+
+### Example Queries
+
+**Daily Transaction Volume:**
+sql
+SELECT
+  DATE(block_timestamp) as date,
+  COUNT(*) as tx_count,
+  SUM(value)/1e18 as total_eth_transferred
+FROM `bigquery-public-data.crypto_ethereum.transactions`
+WHERE DATE(block_timestamp) >= CURRENT_DATE() - 7
+GROUP BY date
+ORDER BY date DESC
+
+
+**Top Gas Consumers by Address:**
+sql
+SELECT
+  from_address,
+  COUNT(*) as tx_count,
+  SUM(receipt_gas_used) as total_gas,
+  SUM(receipt_gas_used * gas_price)/1e18 as total_fees_eth
+FROM `bigquery-public-data.crypto_ethereum.transactions`  
+WHERE DATE(block_timestamp) = '2025-05-21'
+GROUP BY from_address
+ORDER BY total_fees_eth DESC
+LIMIT 100
+
+
+
+## Cost Estimates
+
+### Full Table Scan Costs (Approximate)
+
+| Table | Estimated Size | Cost per Full Scan |
+|-------|----------------|-------------------|
+| blocks | ~2 TB | ~$10 |
+| transactions | ~15 TB | ~$75 |
+| logs | ~20 TB | ~$100 |
+| traces | ~25 TB | ~$125 |
+| token_transfers | ~5 TB | ~$25 |
+
+### Cost Reduction Strategies
+
+1. **Date Partitioning**: Reduces cost by 99%+ (scan only needed days)
+2. **Column Selection**: Only query needed columns
+3. **Aggregation Push-down**: GROUP BY before JOIN
+4. **Materialized Views**: Pre-aggregate common queries
+5. **BI Engine**: For dashboard/repeated queries
+
+
+## Dataset Limitations
+
+- **Update Frequency**: Near real-time (few minutes lag)
+- **History**: Complete from genesis block (July 30, 2015)
+- **Decimals**: Values in wei (1 ETH = 1e18 wei)
+- **Missing Data**: Some early blocks may have incomplete traces
+- **Token Coverage**: Only includes decoded ERC-20 transfers
+</file>
+
+<file path="pyproject.toml">
+[tool.poetry]
+name = "qaa-analysis"
+version = "0.1.0"
+description = "Quant address analytics – clustering + REV"
+authors = ["Your Name <you@example.com>"]
+packages = [{include = "qaa_analysis", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pandas = "^2.2"
+pyarrow = "^15.0"
+google-cloud-bigquery = "^3.19"
+google-cloud-bigquery-storage = "^2.24"
+scikit-learn = "^1.4"
+hdbscan = {version = "^0.8", optional = true}
+python-dotenv = "^1.1.0"
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.29"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+</file>
+
+<file path="repomix.config.json">
+{
+  "output": {
+    "style": "xml",
+    "filePath": ".repomix/QAA-ANALYSIS.xml",
+    "removeComments": true,
+    "showLineNumbers": false,
+    "topFilesLength": 10,
+    "compress": false
+  },
+  "ignore": {
+    "customPatterns": [
+      "**/data/**"
+    ]
+  },
+  "git": {
+    "respectGitignore": false
+  }
+}
+</file>
+
+<file path="src/qaa_analysis/__init__.py">
+
+</file>
+
+<file path="src/qaa_analysis/config.py">
+import os
+
+PROJECT_ID = os.getenv("GCP_PROJECT_ID", "REPLACE_ME")
+assert (
+    PROJECT_ID != "REPLACE_ME"
+), "Set the env var GCP_PROJECT_ID to your GCP / Sandbox project ID."
+</file>
+
+<file path="src/qaa_analysis/etl.py">
+from __future__ import annotations
+from google.cloud import bigquery, bigquery_storage
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
+
+from qaa_analysis.config import PROJECT_ID
+
+DATE_STR = "2025-05-21"
+
+SQL = f"""
+WITH day_tx AS (
+  SELECT
+    from_address                         AS address,
+    receipt_gas_used                     AS gas_used,
+    (receipt_gas_used * gas_price)/1e18  AS rev_eth
+  FROM bigquery-public-data.crypto_ethereum.transactions
+  WHERE DATE(block_timestamp) = '{DATE_STR}'
+)
+SELECT
+  address,
+  COUNT(*)                AS tx_cnt,
+  SUM(gas_used)           AS gas_used,
+  SUM(rev_eth)            AS rev_eth
+FROM day_tx
+GROUP BY address
+"""
+
+
+def main() -> None:
+    bq = bigquery.Client(project=PROJECT_ID)
+    bqstor = bigquery_storage.BigQueryReadClient()
+
+    df = (
+        bq.query(SQL)
+        .result()
+        .to_dataframe(bqstorage_client=bqstor, create_bqstorage_client=True)
+    )
+
+    features = df[["tx_cnt", "gas_used", "rev_eth"]]
+    X = StandardScaler().fit_transform(features)
+
+    km = KMeans(n_clusters=8, n_init="auto", random_state=42)
+    df["cluster"] = km.fit_predict(X)
+
+    summary = (
+        df.groupby("cluster")["rev_eth"]
+        .agg(count="size", total_rev_eth="sum", avg_rev_eth="mean")
+        .reset_index()
+        .sort_values("total_rev_eth", ascending=False)
+    )
+
+    print(summary.to_string(index=False, float_format=lambda x: f"{x:,.4f}"))
+
+
+if __name__ == "__main__":
+    main()
+</file>
+
+<file path="src/qaa_analysis/metadata_explorer.py">
+import os
+from datetime import datetime
+from google.cloud import bigquery
+from dotenv import load_dotenv
+
+
+load_dotenv()
+PROJECT_ID = os.getenv("GCP_PROJECT_ID", "qaa-analysis")
+
+
+client = bigquery.Client(project=PROJECT_ID)
+
+
+output = []
+
+
+def log(message):
+
+    print(message)
+    output.append(message)
+
+
+
+
+
+log("# BigQuery Ethereum Dataset Documentation")
+log(f"\nGenerated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+log(f"Dataset: bigquery-public-data.crypto_ethereum")
+log(f"Project: {PROJECT_ID}")
+
+
+
+
+log("\n## Dataset Overview")
+log(
+    "\nThe Ethereum public dataset contains blockchain data from genesis to near real-time."
+)
+
+
+tables_query = """
+SELECT
+    table_name,
+    table_type,
+    IFNULL(ddl, 'No DDL available') as ddl
+FROM bigquery-public-data.crypto_ethereum.INFORMATION_SCHEMA.TABLES
+ORDER BY
+    CASE
+        WHEN table_name = 'blocks' THEN 1
+        WHEN table_name = 'transactions' THEN 2
+        WHEN table_name = 'logs' THEN 3
+        WHEN table_name = 'traces' THEN 4
+        ELSE 5
+    END,
+    table_name
+"""
+
+try:
+    tables = list(client.query(tables_query).result())
+
+    log("\n### Available Tables\n")
+    log("| Table Name | Type | Description |")
+    log("|------------|------|-------------|")
+
+    table_descriptions = {
+        "blocks": "Block headers and metadata",
+        "transactions": "All Ethereum transactions",
+        "logs": "Smart contract event logs",
+        "traces": "Internal transactions and calls",
+        "contracts": "Contract creation information",
+        "tokens": "ERC-20 token metadata",
+        "token_transfers": "ERC-20 transfer events",
+        "balances": "Historical address balances",
+        "sessions": "User session analytics",
+        "amended_tokens": "Corrected token information",
+    }
+
+    for table in tables:
+        desc = table_descriptions.get(table.table_name, "Specialized data table")
+        log(f"| {table.table_name} | {table.table_type} | {desc} |")
+
+except Exception as e:
+    log(f"\nError fetching tables: {e}")
+
+
+
+
+log("\n## Table Schemas")
+
+
+key_tables = ["blocks", "transactions", "logs", "traces", "token_transfers"]
+
+for table_name in key_tables:
+    log(f"\n### {table_name}")
+
+    schema_query = f"""
+    SELECT
+        ordinal_position,
+        column_name,
+        data_type,
+        is_nullable,
+        is_partitioning_column,
+        clustering_ordinal_position,
+        description
+    FROM bigquery-public-data.crypto_ethereum.INFORMATION_SCHEMA.COLUMNS
+    WHERE table_name = '{table_name}'
+    ORDER BY ordinal_position
+    """
+
+    try:
+        columns = list(client.query(schema_query).result())
+
+        if columns:
+
+            if table_name == "blocks":
+                log("\nContains one row for each block in the blockchain.")
+            elif table_name == "transactions":
+                log(
+                    "\nContains one row for each transaction. Partitioned by block_timestamp."
+                )
+            elif table_name == "logs":
+                log("\nContains event logs emitted by smart contracts.")
+            elif table_name == "traces":
+                log(
+                    "\nContains internal transactions (message calls between addresses)."
+                )
+            elif table_name == "token_transfers":
+                log("\nContains ERC-20 token transfer events.")
+
+            log(f"\n**Columns ({len(columns)} total):**\n")
+            log("| Column | Type | Nullable | Description |")
+            log("|--------|------|----------|-------------|")
+
+            for col in columns:
+                nullable = "Yes" if col.is_nullable == "YES" else "No"
+                desc = col.description or ""
+
+
+                special = []
+                if col.is_partitioning_column == "YES":
+                    special.append("PARTITION")
+                if col.clustering_ordinal_position:
+                    special.append(f"CLUSTER-{col.clustering_ordinal_position}")
+
+                special_str = f" *[{', '.join(special)}]*" if special else ""
+
+
+                if len(desc) > 80:
+                    desc = desc[:77] + "..."
+
+                log(
+                    f"| {col.column_name}{special_str} | {col.data_type} | {nullable} | {desc} |"
+                )
+
+    except Exception as e:
+        log(f"\nError fetching schema for {table_name}: {e}")
+
+
+
+
+log("\n## Key Relationships")
+
+log(
+
+)
+
+
+
+
+log("\n## Important Fields for Analysis")
+
+log(
+
+)
+
+
+
+
+log("\n## Efficient Query Patterns")
+
+log(
+
+)
+
+
+
+
+log("\n## Cost Estimates")
+
+log(
+
+)
+
+
+
+
+log("\n## Dataset Limitations")
+
+log(
+
+)
+
+
+output_file = "ethereum_dataset_documentation.md"
+with open(output_file, "w", encoding="utf-8") as f:
+    f.write("\n".join(output))
+
+log(f"\n✓ Documentation saved to {output_file}")
+log("\nTotal cost: < $0.001 (metadata queries only)")
+</file>
+
+</files>
+
+# PLAN.md – Quant Address Analytics (qaa-analysis)
+
+---
+
+## 1  Objective
+
+Build a reproducible pipeline that:
+
+1. Pulls on‑chain activity for **one UTC day** from Google’s public BigQuery blockchain datasets (Ethereum first).
+2. Generates per‑address behavioural features.
+3. Runs unsupervised clustering (baseline: k‑means) to group addresses into archetypes.
+4. Calculates **REV (Real Economic Value)** per cluster (fees + tips).
+5. Outputs actionable summaries for protocol BD teams.
+
+---
+
+## 2  Data Sources & Definitions
+
+| Chain (v1)     | Dataset ID                                               | Core tables                                                   | Purpose                         |
+| -------------- | -------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------- |
+| Ethereum       | bigquery-public-data.crypto_ethereum.*                 | transactions, blocks, traces (later), token_transfers | Fees, tips, token flows         |
+| (later) Solana | bigquery-public-data.crypto_solana_mainnet_us.*        | transactions, instructions, token_transfers             | Priority fees & program IDs     |
+| (later) L2s    | Same pattern (crypto_polygon, crypto_optimism, etc.) | —                                                             | Adds roll‑up data‑fee component |
+
+**REV formula** (per Blockworks): REV = in‑protocol fees + out‑of‑protocol tips
+For Ethereum, REV_eth = (base_fee + priority_fee) × gas_used + miner/builder tips.
+
+---
+
+## 3  Environment Setup
+
+### 3.1  Local prerequisites
+
+* Python 3.11
+* Poetry ≥ 1.8
+* Google Cloud SDK (gcloud) – for Application‑Default Credentials.
+
+### 3.2  Google Cloud project
+
+* Use free **BigQuery Sandbox** (10 GB storage, 1 TB scan/month).
+* Enable BigQuery API + BigQuery Storage API.
+* Set project ID env‑var: export GCP_PROJECT_ID="my-sandbox-project".
+
+### 3.3  Poetry project scaffold
+
+bash
+poetry new qaa-analysis
+cd qaa-analysis
+poetry env use python3.11
+
+
+pyproject.toml key dependencies:
+
+toml
+pandas = "^2.2"
+pyarrow = "^15.0"
+google-cloud-bigquery = "^3.19"
+google-cloud-bigquery-storage = "^2.24"
+scikit-learn = "^1.4"
+hdbscan = {version = "^0.8", optional = true}
+
+
+Add package discovery:
+
+toml
+packages = [{ include = "qaa_analysis", from = "src" }]
+
+
+---
+
+## 4  ETL Pipeline
+
+### 4.1  SQL – one‑day feature extract
+
+sql
+WITH day_tx AS (
+  SELECT
+    from_address                         AS address,
+    receipt_gas_used                     AS gas_used,
+    (receipt_gas_used * gas_price)/1e18  AS rev_eth
+  FROM `bigquery-public-data.crypto_ethereum.transactions`
+  WHERE DATE(block_timestamp) = @day
+)
+SELECT
+  address,
+  COUNT(*)      AS tx_cnt,
+  SUM(gas_used) AS gas_used,
+  SUM(rev_eth)  AS rev_eth
+FROM day_tx
+GROUP BY address;
+
+
+Parameter @day → runtime‐supplied (e.g. yesterday).
+
+### 4.2  etl.py core flow
+
+1. Read @day arg (default: current –1 day).
+2. Query BigQuery via Storage API → pandas DataFrame.
+3. Standard‑scale numeric features.
+4. Fit KMeans(k=8); add cluster column.
+5. Groupby cluster → count, total_rev_eth, avg_rev_eth.
+6. Print table; optionally write results to data/addr_clusters_<date>.parquet.
+
+### 4.3  Cost control
+
+* Daily filter limits scan to ≲ 6 GB.
+* Remains < 1 TB/month free quota even with multiple test days.
+
+---
+
+## 5  Clustering Module
+
+| Step            | Library                                | Notes                                               |
+| --------------- | -------------------------------------- | --------------------------------------------------- |
+| Standardisation | sklearn.preprocessing.StandardScaler | Zero‑mean, unit‑var.                                |
+| Baseline algo   | sklearn.cluster.KMeans               | n_clusters=8, n_init="auto", random_state=42. |
+| Future algo     | hdbscan.HDBSCAN                      | Needs optional extra.                               |
+
+Feature roadmap:
+
+* **v0:** tx_cnt, gas_used, rev_eth.
+* **v1:** distinct_contracts, median_intertx_time, erc20_token_count.
+* **v2:** Token categories, trace‑based DeFi interactions.
+
+---
+
+## 6  REV Attribution Logic
+
+For each address row already holding rev_eth:
+
+python
+summary = (
+  df.groupby("cluster")["rev_eth"]
+    .agg(count="size", total_rev_eth="sum", avg_rev_eth="mean")
+    .reset_index()
+    .sort_values("total_rev_eth", ascending=False)
+)
+
+
+Later: join daily ETH price to convert to USD.
+
+---
+
+## 7  Output & Reporting
+
+* **Console table** (PoC).
+* **Optional**: write summary as CSV/Parquet → S3/GCS.
+* **Future**: Notebook visualisations (UMAP plots), Metabase or Superset dashboard.
+
+---
+
+## 8  Quality Assurance & Testing
+
+| Layer  | Check                                                         |
+| ------ | ------------------------------------------------------------- |
+| SQL    | EXPLAIN query plan, scan bytes < 10 GB.                     |
+| Python | pytest on feature functions, clustering reproducibility.    |
+| Data   | Spot‑check random addresses against Etherscan for fee totals. |
+
+---
+
+## 9  Roadmap & Milestones
+
+### Phase 1  (M‑Week 0‑1) – PoC
+
+* [ ] Fix Poetry scaffold & auth (today).
+* [ ] One‑day extract → clustering → REV summary.
+
+### Phase 2  (M‑Week 2‑3) – Feature expansion
+
+* [ ] Add contract breadth & token‑flow features.
+* [ ] Switch clustering hyper‑params; evaluate Silhouette.
+
+### Phase 3  (M‑Week 4‑5) – Multi‑day & automation
+
+* [ ] Parametrise date range; run 30‑day window.
+* [ ] Schedule via cron/GitHub Actions.
+
+### Phase 4  (M‑Week 6+) – Multi‑chain scale‑out
+
+* [ ] Solana dataset integration (handle priority fees).
+* [ ] OP‑Stack (Base, Optimism) – include L1 data fee.
+* [ ] Cross‑chain comparative dashboard.
+
+---
+
+## 10  Risks & Mitigations
+
+| Risk                           | Impact         | Mitigation                                      |
+| ------------------------------ | -------------- | ----------------------------------------------- |
+| BigQuery free tier exceeded    | Cost overrun   | Daily partition filter; monitor bytes_billed. |
+| Dataset latency / schema drift | Missing data   | Write schema tests; fallback to cached exports. |
+| Credential expiry in CI        | Pipeline fails | Use long‑lived service account in non‑prod.     |
+
+---
+
+### Maintainer
+
+**Danny (Quant Investor, Crypto Researcher, Software Engineer)** – GitHub: dshap474
+
+### License
+
+MIT — see LICENSE file.
