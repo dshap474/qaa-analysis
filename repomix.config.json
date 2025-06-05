@@ -1,7 +1,7 @@
 {
   "output": {
-    "style": "xml",
-    "filePath": ".repomix/QAA-ANALYSIS.xml",
+    "style": "plain",
+    "filePath": ".repomix/QAA-ANALYSIS.txt",
     "removeComments": true,
     "showLineNumbers": false,
     "topFilesLength": 10,
