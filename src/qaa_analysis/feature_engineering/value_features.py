@@ -12,6 +12,10 @@ import pandas as pd
 import numpy as np
 
 from .feature_extractor import FeatureExtractor
+from .safe_value_conversion import (
+    safe_float, safe_int, safe_series_sum, safe_series_mean,
+    safe_series_median, safe_series_std, safe_series_max, safe_series_min
+)
 
 
 class ValueFeatures(FeatureExtractor):
@@ -164,11 +168,11 @@ class ValueFeatures(FeatureExtractor):
         value_series = df['value_eth']
         
         # Basic value statistics
-        features['total_eth_value'] = float(value_series.sum())
-        features['avg_tx_value'] = float(value_series.mean())
-        features['median_tx_value'] = float(value_series.median())
-        features['max_tx_value'] = float(value_series.max())
-        features['value_volatility'] = float(value_series.std())
+        features['total_eth_value'] = safe_series_sum(value_series)
+        features['avg_tx_value'] = safe_series_mean(value_series)
+        features['median_tx_value'] = safe_series_median(value_series)
+        features['max_tx_value'] = safe_series_max(value_series)
+        features['value_volatility'] = safe_series_std(value_series)
         
         # Value concentration
         features['value_concentration_gini'] = self.calculate_gini_coefficient(value_series)
@@ -199,16 +203,16 @@ class ValueFeatures(FeatureExtractor):
         gas_cost_series = df['gas_cost_eth']
         
         # Gas usage statistics
-        features['total_gas_used'] = int(gas_used_series.sum())
-        features['avg_gas_per_tx'] = float(gas_used_series.mean())
-        features['median_gas_per_tx'] = float(gas_used_series.median())
+        features['total_gas_used'] = safe_int(gas_used_series.sum())
+        features['avg_gas_per_tx'] = safe_series_mean(gas_used_series)
+        features['median_gas_per_tx'] = safe_series_median(gas_used_series)
         
         # Gas cost statistics
-        features['total_gas_cost_eth'] = float(gas_cost_series.sum())
+        features['total_gas_cost_eth'] = safe_series_sum(gas_cost_series)
         
         # Gas price statistics
-        features['avg_gas_price'] = float(gas_price_series.mean())
-        features['gas_price_volatility'] = float(gas_price_series.std())
+        features['avg_gas_price'] = safe_series_mean(gas_price_series)
+        features['gas_price_volatility'] = safe_series_std(gas_price_series)
         
         return features
     
@@ -225,12 +229,12 @@ class ValueFeatures(FeatureExtractor):
         features = {}
         
         # Gas efficiency (value per gas unit)
-        total_value = df['value_eth'].sum()
-        total_gas = df['receipt_gas_used'].sum()
+        total_value = safe_series_sum(df['value_eth'])
+        total_gas = safe_series_sum(df['receipt_gas_used'])
         features['gas_efficiency'] = self.safe_divide(total_value, total_gas)
         
         # Value to gas cost ratio
-        total_gas_cost = df['gas_cost_eth'].sum()
+        total_gas_cost = safe_series_sum(df['gas_cost_eth'])
         features['value_to_gas_cost_ratio'] = self.safe_divide(total_value, total_gas_cost)
         
         # Average transaction cost ratio (gas cost / transaction value)
@@ -238,7 +242,7 @@ class ValueFeatures(FeatureExtractor):
         non_zero_value_df = df[df['value_eth'] > 0]
         if len(non_zero_value_df) > 0:
             cost_ratios = non_zero_value_df['gas_cost_eth'] / non_zero_value_df['value_eth']
-            features['avg_tx_cost_ratio'] = float(cost_ratios.mean())
+            features['avg_tx_cost_ratio'] = safe_series_mean(cost_ratios)
         else:
             features['avg_tx_cost_ratio'] = 0.0
         
@@ -263,7 +267,7 @@ class ValueFeatures(FeatureExtractor):
         
         # Premium gas ratio (above median gas price)
         if len(df) > 0:
-            median_gas_price = df['gas_price_gwei'].median()
+            median_gas_price = safe_series_median(df['gas_price_gwei'])
             premium_gas_tx = (df['gas_price_gwei'] > median_gas_price).sum()
             features['premium_gas_ratio'] = self.safe_divide(premium_gas_tx, total_tx)
         else:
@@ -271,8 +275,10 @@ class ValueFeatures(FeatureExtractor):
         
         # Value consistency score (inverse of coefficient of variation)
         value_series = df['value_eth']
-        if len(value_series) > 1 and value_series.mean() > 0:
-            cv = value_series.std() / value_series.mean()  # Coefficient of variation
+        mean_value = safe_series_mean(value_series)
+        if len(value_series) > 1 and mean_value > 0:
+            std_value = safe_series_std(value_series)
+            cv = std_value / mean_value  # Coefficient of variation
             features['value_consistency_score'] = 1 / (1 + cv)  # Higher score = more consistent
         else:
             features['value_consistency_score'] = 1.0

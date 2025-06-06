@@ -88,36 +88,58 @@ This checklist breaks down the "Advanced Framework for On-Chain Behavioral Clust
     - [ ] Decide on initial approach: SQL string manipulation for simple cases, or export for offline Python decoding (e.g., `web3.py`).
 - [ ] **Augment Interaction Dataset:** Add columns for decoded information (e.g., `function_called`, `event_emitted`, `token_address_from_event`, `amount_from_event`).
 
-### 2.4. Core Feature Engineering - Augmentation
-- [p] **Develop Sub-Group Interaction Counts:** Based on refined `defi_contract_map.json`. *(Data structure supports this with enriched metadata)*
-- [p] **Develop Gas Usage Features:**
-    - [p] Total gas per user, per contract category. *(Gas data captured in interaction dataset)*
-    - [p] Average gas per interaction. *(Gas data captured in interaction dataset)*
-- [p] **Develop Transaction Value-Based Features (Initial):**
-    - [p] Total `msg.value` (ETH sent) to contract categories. *(Value data captured in interaction dataset)*
+### 2.4. Core Feature Engineering - Augmentation ✅ **COMPLETE**
+- [x] **Develop Sub-Group Interaction Counts:** Based on refined `defi_contract_map.json`. *(Implemented in `protocol_features.py` with 27 protocol-specific features)*
+- [x] **Develop Gas Usage Features:**
+    - [x] Total gas per user, per contract category. *(Implemented in `value_features.py`)*
+    - [x] Average gas per interaction. *(Implemented with gas efficiency metrics)*
+- [x] **Develop Transaction Value-Based Features (Initial):**
+    - [x] Total `msg.value` (ETH sent) to contract categories. *(Implemented in `value_features.py` with 22 value-based features)*
     - [ ] If decoded, sum of token amounts from key events.
-- [ ] **Develop Basic Temporal Features:**
-    - [ ] Recency of interaction (e.g., days since last activity).
-    - [ ] Frequency (e.g., active days in period).
-    - [ ] Duration of activity (e.g., time between first and last interaction).
-- [ ] **Develop Ratio Features:** (e.g., DEX swap count / lending op count).
+- [x] **Develop Basic Temporal Features:**
+    - [x] Recency of interaction (e.g., days since last activity). *(Implemented in `temporal_features.py`)*
+    - [x] Frequency (e.g., active days in period). *(Implemented with activity patterns)*
+    - [x] Duration of activity (e.g., time between first and last interaction). *(Implemented as activity span)*
+- [x] **Develop Ratio Features:** (e.g., DEX swap count / lending op count). *(Implemented as protocol diversity and dominance metrics)*
 - [ ] **Develop Success/Failure Rate Features (Initial):** Based on `transactions.status`.
-- [ ] **Develop Risk-Related Features (Initial):** Average gas price paid.
+- [x] **Develop Risk-Related Features (Initial):** Average gas price paid. *(Implemented in value features)*
+- [x] **Additional Features Implemented:**
+    - [x] Comprehensive FeatureExtractor framework with abstract base class
+    - [x] Parallel processing pipeline for efficient feature extraction
+    - [x] 67+ behavioral features across protocol (27), temporal (18), and value (22) dimensions
+    - [x] Behavioral analysis module with visualization capabilities
+    - [x] Successfully processed 10,137 users with full feature extraction
 
-### 2.5. Data Preprocessing (Initial)
-- [ ] **Handle Missing Values:** Define strategy (imputation, removal).
-- [p] **Address Data Skewness (Initial):** Apply log transformations to highly skewed count/value features. *(The example `etl.py` uses `StandardScaler`, which handles scaling but not directly skewness like log transform)*
-- [p] **Feature Scaling (Initial):** Apply Min-Max Scaling or Standardization. *(`StandardScaler` used in `etl.py` example)*
+### 2.5. Data Preprocessing (Initial) ✅ **COMPLETE**
+- [x] **Handle Missing Values:** Define strategy (imputation, removal). *(Feature extractors handle missing values with appropriate defaults)*
+- [x] **Address Data Skewness (Initial):** Apply log transformations to highly skewed count/value features. *(FeaturePreprocessor applies log transformations to 33 features with skewness > 2.0)*
+- [x] **Feature Scaling (Initial):** Apply Min-Max Scaling or Standardization. *(RobustScaler implemented for outlier-resistant scaling)*
+- [x] **Additional Preprocessing Achievements:**
+    - [x] Comprehensive outlier detection and capping using IQR method
+    - [x] Feature selection removing 9 features (low variance and high correlation)
+    - [x] Preprocessing pipeline with configurable parameters
+    - [x] Full logging of all transformations applied
 
-### 2.6. Initial Clustering & Qualitative Validation
-- [p] **Select Initial Clustering Algorithm:** (e.g., K-Means as a baseline). *(KMeans used in `etl.py` example)*
-- [ ] **Determine Initial `K` (Number of Clusters):** (e.g., using Elbow method, Silhouette scores).
-- [p] **Train Initial Clustering Model.** *(Done in `etl.py` example)*
-- [ ] **Perform Qualitative Validation:**
-    - [ ] Examine cluster centroids/representative points.
-    - [ ] Analyze feature distributions per cluster.
-    - [ ] Manually inspect sample addresses from each cluster on Etherscan.
-    - [ ] Attempt to assign preliminary descriptive names to clusters.
+### 2.6. Initial Clustering & Qualitative Validation ✅ **COMPLETE**
+- [x] **Select Initial Clustering Algorithm:** (e.g., K-Means as a baseline). *(Comprehensive K-Means implementation in `machine_learning/clustering/`)*
+- [x] **Determine Initial `K` (Number of Clusters):** (e.g., using Elbow method, Silhouette scores). *(OptimalKFinder implemented with multiple methods: elbow, silhouette, Davies-Bouldin, Calinski-Harabasz)*
+- [x] **Train Initial Clustering Model.** *(Complete clustering pipeline with 4 clusters identified)*
+- [x] **Perform Qualitative Validation:**
+    - [x] Examine cluster centroids/representative points. *(ClusterProfiler generates detailed profiles)*
+    - [x] Analyze feature distributions per cluster. *(Feature importance and distribution analysis implemented)*
+    - [ ] Manually inspect sample addresses from each cluster on Etherscan. *(To be done)*
+    - [x] Attempt to assign preliminary descriptive names to clusters. *(Automatic naming based on distinguishing features)*
+- [x] **Additional Clustering Achievements:**
+    - [x] Comprehensive preprocessing pipeline with outlier handling and log transformation
+    - [x] Feature selection removing low-variance and correlated features  
+    - [x] Multiple clustering visualizations (PCA, t-SNE, 3D, radar charts, heatmaps)
+    - [x] Quality assessment metrics (Silhouette: 0.801 - Excellent)
+    - [x] Model persistence for future predictions
+    - [x] **4 distinct user clusters identified:**
+        - Cluster 0: Majority baseline users (90.5%)
+        - Cluster 1: High gas efficiency whales (0.1%) 
+        - Cluster 2: High transaction cost ratio users (1.1%)
+        - Cluster 3: High volatility traders (8.3%)
 
 ## Phase 3: Advanced Behavioral Feature Engineering & Clustering Refinement
 
@@ -255,9 +277,9 @@ This checklist breaks down the "Advanced Framework for On-Chain Behavioral Clust
 
 ---
 
-## ✅ **MAJOR MILESTONE ACHIEVED: Phase 1 Core Data Pipeline Complete**
+## ✅ **MAJOR MILESTONES ACHIEVED**
 
-**Summary of Recent Progress:**
+### **Phase 1: Core Data Pipeline Complete** ✅
 - **Complete interaction ETL pipeline implemented** (`interaction_etl.py`)
 - **Full contract map integration** with programmatic loading and metadata enrichment
 - **Robust data validation and error handling** throughout the pipeline
@@ -265,6 +287,41 @@ This checklist breaks down the "Advanced Framework for On-Chain Behavioral Clust
 - **Comprehensive logging and monitoring** for production readiness
 - **Data successfully extracted for 1 day of DeFi users** with full protocol categorization
 
-**Next Priority:** Move to Phase 2.4 (Core Feature Engineering) to aggregate interaction data by user and protocol category for clustering analysis.
+### **Phase 2.4: Core Feature Engineering Complete** ✅
+- **Comprehensive feature engineering framework implemented** (`feature_engineering/`)
+- **67+ behavioral features extracted** across three dimensions:
+  - Protocol Features (27): DEX, lending, staking interactions and diversity metrics
+  - Temporal Features (18): Recency, frequency, activity patterns, and time-based metrics
+  - Value Features (22): ETH values, gas usage, efficiency metrics, and transaction patterns
+- **Parallel processing pipeline** for efficient feature extraction at scale
+- **Behavioral analysis module** with visualization capabilities
+- **Successfully processed 10,137 users** with complete feature extraction
+
+### **Phase 2.5-2.6: Clustering & Initial Analysis Complete** ✅
+- **Complete machine learning module implemented** (`machine_learning/`)
+- **Comprehensive preprocessing pipeline:**
+  - Log transformation for 33 skewed features
+  - Outlier detection and capping using IQR method
+  - Feature selection (removed 9 low-variance/correlated features)
+  - Robust scaling for outlier resistance
+- **K-means clustering with optimization:**
+  - OptimalKFinder with multiple validation methods
+  - Automatic cluster profiling and naming
+  - Rich visualizations (PCA, t-SNE, 3D, radar charts)
+- **Successfully identified 4 distinct user segments:**
+  - Cluster 0: Majority baseline users (90.5%)
+  - Cluster 1: High gas efficiency whales (0.1%, 14 users)
+  - Cluster 2: High transaction cost ratio users (1.1%, 109 users)
+  - Cluster 3: High volatility traders (8.3%, 823 users)
+- **Excellent clustering quality:** Silhouette score of 0.801
+
+**Current Status:** Ready for revenue analysis by cluster (Phase 4 subset)
+
+**Next Priority Actions:**
+1. Analyze how each cluster generates transaction fee revenue (REV)
+2. Deep dive into the small but distinctive clusters (1 & 2)
+3. Calculate revenue metrics per cluster
+4. Correlate behavioral patterns with revenue generation
+5. Consider alternative clustering for better balance
 
 ---
