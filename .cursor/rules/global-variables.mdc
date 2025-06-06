@@ -1,0 +1,6 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+Set global variables that define the formatting of elements of the file at the top of files that are in all caps (example: TABLE_HEIGHT)

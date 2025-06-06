@@ -1,412 +1,396 @@
 {
-    "DeFi Participant": {
-        "Traders (DEX Users, Arbitrageurs, MEV Searchers)": [
-            {
-                "protocol_category": "DEX (AMM)",
-                "contract_address": "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f",
-                "contract_role": "UniswapV2 Factory",
-                "label_type": "Contract",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "10000835",
-                "abi_url": null,
-                "notes": "Factory for Uniswap V2 pools (Pairs) on Ethereum; emits PairCreated events for each new pool."
-            },
-            {
-                "protocol_category": "DEX (AMM)",
-                "contract_address": "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
-                "contract_role": "UniswapV2 Router02",
-                "label_type": "Contract",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "10207858",
-                "abi_url": null,
-                "notes": "Primary router for Uniswap V2 on Ethereum (provides swap/add liquidity functions)."
-            },
-            {
-                "protocol_category": "DEX (AMM)",
-                "contract_address": "0x1F98431c8aD98523631AE4a59f267346ea31F984",
-                "contract_role": "UniswapV3 Factory",
-                "label_type": "Contract",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "12369621",
-                "abi_url": "",
-                "notes": "Factory for Uniswap V3 pools on Ethereum; deploys new pools for each token pair & fee tier."
-            },
-            {
-                "protocol_category": "DEX (AMM)",
-                "contract_address": "0xE592427A0AEce92De3Edee1F18E0157C05861564",
-                "contract_role": "UniswapV3 SwapRouter (V1)",
-                "label_type": "Contract",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "12537778",
-                "abi_url": "",
-                "notes": "Uniswap V3 periphery SwapRouter (single-path swaps)."
-            },
-            {
-                "protocol_category": "DEX (AMM)",
-                "contract_address": "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45",
-                "contract_role": "UniswapV3 SwapRouter02",
-                "label_type": "Contract",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "14737933",
-                "abi_url": "",
-                "notes": "Updated Uniswap V3 router supporting multi-hop swaps and permit2."
-            },
-            {
-                "protocol_category": "DEX (AMM)",
-                "contract_address": "0xAa5A67c256e27A5d80712c51971408db3370927D",
-                "contract_role": "Curve StableSwapFactory",
-                "label_type": "Contract",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "12909468",
-                "abi_url": null,
-                "notes": "Curve factory for metapools (deploys new StableSwap pools). Facilitates creating new Curve liquidity pools permissionlessly."
-            },
-            {
-                "protocol_category": "DEX (AMM)",
-                "contract_address": "0xE2e6D4BE086c6938B53B22144855eef674281639",
-                "contract_role": "Curve CryptoSwapFactory",
-                "label_type": "Contract",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "13306628",
-                "abi_url": null,
-                "notes": "Curve factory for crypto pools (non-stable assets)."
-            }
-        ],
-        "Lenders & Borrowers": [
-            {
-                "protocol_category": "Lending",
-                "contract_address": "0x87870bca3f3fd6335c3f4ce8392d69350b4fa4e2",
-                "contract_role": "Pool (LendingPool proxy)",
-                "label_type": "Proxy",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "12914914",
-                "abi_url": "",
-                "notes": "Main Aave V3 liquidity pool proxy on Ethereum; manages deposits, borrows, and repayments."
-            },
-            {
-                "protocol_category": "Lending",
-                "contract_address": "0x2f39d4d1973e5df8e0dcd69b4ad8fc09c71b4e9e",
-                "contract_role": "PoolAddressesProvider",
-                "label_type": "Proxy",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "12914907",
-                "abi_url": "",
-                "notes": "Registry of pool addresses (upgradeable); holds references to Pool, Configurator, etc."
-            },
-            {
-                "protocol_category": "Lending",
-                "contract_address": "0x64b761d848206f447fe2dd461b0c635ec848bB27",
-                "contract_role": "PoolConfigurator",
-                "label_type": "Proxy",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "12914919",
-                "abi_url": "",
-                "notes": "Manages listing & configuration of Aave V3 assets (reserves, collateral parameters)."
-            },
-            {
-                "protocol_category": "Lending",
-                "contract_address": "0xc2aa15dc299eaeb7f8e4e8c0d6bf84c1c9c885b0",
-                "contract_role": "ACLManager",
-                "label_type": "Proxy",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "12914943",
-                "abi_url": "",
-                "notes": "Access Control manager for permissions (governance roles) in Aave V3."
-            },
-            {
-                "protocol_category": "Lending",
-                "contract_address": "0x8164cc65827dcfe994ab23944cbc90e0aa80bFcb",
-                "contract_role": "DefaultIncentivesController",
-                "label_type": "Proxy",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "12915015",
-                "abi_url": "",
-                "notes": "Rewards distribution controller for Aave V3 (handles reward emissions to suppliers/borrowers)."
-            },
-            {
-                "protocol_category": "Lending",
-                "contract_address": "0xb53c1a33016b2dc2ff3653530bff1848a515c8c5",
-                "contract_role": "LendingPoolAddressesProvider",
-                "label_type": "Proxy",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "10001074",
-                "abi_url": "",
-                "notes": "Registry for Aave V2 core contract addresses (mainnet market). Provides the address of the active LendingPool."
-            },
-            {
-                "protocol_category": "Lending",
-                "contract_address": "0x7d2768dE32b0b80b7a3454c06BdAcA9cFafc97eA",
-                "contract_role": "LendingPool",
-                "label_type": "Proxy",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "11362579",
-                "abi_url": "",
-                "notes": "Main Aave V2 liquidity pool proxy; handles user deposits, borrows, repayments (deprecated by V3)."
-            },
-            {
-                "protocol_category": "Lending",
-                "contract_address": "0x19c0976f590D67707E62397C87829d896Dc0f1F1",
-                "contract_role": "Spark Lend DAI Market (v3 Pool)",
-                "label_type": "Proxy",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "17789123",
-                "abi_url": "",
-                "notes": "Spark Protocol's DAI lending pool (on Ethereum) – a MakerDAO-endorsed fork of Aave V3 for DAI lending. Integrates DAI Savings Rate for enhanced yield."
-            },
-            {
-                "protocol_category": "Lending",
-                "contract_address": "0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B",
-                "contract_role": "Comptroller (Unitroller) Proxy",
-                "label_type": "Proxy",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "7710757",
-                "abi_url": "",
-                "notes": "Compound v2 Comptroller proxy – risk parameter manager & entry point for Compound markets. Each market's interest rates & liquidity are controlled via this."
-            },
-            {
-                "protocol_category": "Lending",
-                "contract_address": "0x39AA39c021dfbaE8faC545936693aC917d5E7563",
-                "contract_role": "cUSDC Interest Bearing Token",
-                "label_type": "Proxy",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "7710795",
-                "abi_url": "",
-                "notes": "Compound v2 cUSDC market proxy (implementation cToken) – users supply USDC and receive cUSDC. Earns interest via increasing exchange rate."
-            },
-            {
-                "protocol_category": "Lending",
-                "contract_address": "0xA17581A9E3356d9A858b789D68B4d866e593aE94",
-                "contract_role": "Compound V3 USDC Primary Pool",
-                "label_type": "Proxy",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "15208012",
-                "abi_url": "",
-                "notes": "Compound III (Comet) USDC market proxy. Isolated lending pool with USDC as base asset (supplied/borrowed) and multiple collateral assets."
-            }
-        ],
-        "Liquidity Providers & Yield Farmers": [
-            {
-                "protocol_category": "DEX (AMM)",
-                "contract_address": "0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
-                "contract_role": "UniswapV3 NFT Position Manager",
-                "label_type": "Proxy",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "12387316",
-                "abi_url": "",
-                "notes": "Nonfungible Position Manager (Uniswap V3 LP positions as ERC-721 NFTs; includes mint/burn of liquidity positions)."
-            },
-            {
-                "protocol_category": "DEX (AMM)",
-                "contract_address": "0xd1B5651E55D4CeeD36251c61c50C889B36F6abB5",
-                "contract_role": "Curve TriCryptoPool (USDT/wBTC/ETH)",
-                "label_type": "Contract",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "13001929",
-                "abi_url": "",
-                "notes": "Example Curve V2 pool (TriCrypto); holds 3-crypto basket, one of largest pools on Ethereum."
-            }
-        ],
-        "Stakers (ETH & Liquid)": [
-            {
-                "protocol_category": "Liquid Staking (LSD)",
-                "contract_address": "0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84",
-                "contract_role": "Lido Staked ETH (stETH) Token",
-                "label_type": "Proxy",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "11273710",
-                "abi_url": "",
-                "notes": "Lido stETH token (rebasing) proxy contract. Users receive stETH upon staking ETH; balances update as rewards accrue."
-            },
-            {
-                "protocol_category": "Liquid Staking (LSD)",
-                "contract_address": "0xE0db3A1EF2581977eEdC0E7Da1e4C3E001Bc3b2F",
-                "contract_role": "Lido Staking Pool (v2) Contract",
-                "label_type": "Proxy",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "17137118",
-                "abi_url": "",
-                "notes": "Lido main staking contract (v2) – entry point for deposits. Accepts ETH and mints stETH; manages buffer & routing to node operators."
-            },
-            {
-                "protocol_category": "Liquid Staking (LSD)",
-                "contract_address": "0xB9D7DdDca9a4AC480991865E68b0Fff175D0c56b",
-                "contract_role": "Lido WithdrawalQueue (unstETH)",
-                "label_type": "Contract",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "17137118",
-                "abi_url": "",
-                "notes": "Lido Withdrawal Queue (ERC721) contract for Shapella-enabled withdrawals. Issues unstETH NFTs representing pending withdrawals."
-            },
-            {
-                "protocol_category": "Liquid Staking (LSD)",
-                "contract_address": "0xae78736Cd615f374D3085123A210448E74Fc6393",
-                "contract_role": "Rocket Pool rETH Token",
-                "label_type": "Contract",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "12244000",
-                "abi_url": "",
-                "notes": "Rocket Pool's rETH token (ERC-20) representing staked ETH. rETH appreciates as staking rewards accumulate."
-            },
-            {
-                "protocol_category": "Liquid Staking (LSD)",
-                "contract_address": "0xDD3f50F8A6CafbE9b31a427582963f465E745AF8",
-                "contract_role": "RocketPool Deposit Pool",
-                "label_type": "Contract",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "12244000",
-                "abi_url": "",
-                "notes": "Rocket Pool deposit contract – users send ETH here to mint rETH. Holds incoming ETH before assigning to node operators."
-            },
-            {
-                "protocol_category": "Liquid Staking (LSD)",
-                "contract_address": "0x1d8f8f00cfa6758d7bE78336684788Fb0ee0Fa46",
-                "contract_role": "RocketStorage",
-                "label_type": "Contract",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "12244000",
-                "abi_url": "",
-                "notes": "Rocket Pool core storage contract. Stores addresses of all Rocket Pool sub-contracts and config; acts as an on-chain registry."
-            },
-            {
-                "protocol_category": "Liquid Staking (LSD)",
-                "contract_address": "0xBe9895146f7AF43049ca1c1AE358B0541Ea49704",
-                "contract_role": "Coinbase Wrapped Staked ETH (cbETH)",
-                "label_type": "Contract",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "15259166",
-                "abi_url": "",
-                "notes": "Coinbase's liquid staked ETH token (cbETH). ERC-20 wrapper for staked ETH; accrues rewards via increasing exchange rate."
-            },
-            {
-                "protocol_category": "Liquid Staking (LSD)",
-                "contract_address": "0x5E8422345238F34275888049021821E8E08CAa1f",
-                "contract_role": "Frax ETH (frxETH) Token",
-                "label_type": "Contract",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "15544931",
-                "abi_url": "",
-                "notes": "Frax Ether token (frxETH) – stable-value token minted 1:1 for each ETH staked into Frax's LSD system. Can be further staked to earn yield."
-            },
-            {
-                "protocol_category": "Liquid Staking (LSD)",
-                "contract_address": "0xac3E018457B222d93114458476f3E3416Abbe38F",
-                "contract_role": "Staked Frax Ether (sfrxETH) Vault",
-                "label_type": "Contract",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "15544931",
-                "abi_url": "",
-                "notes": "Yield-bearing vault token (ERC-4626) for Frax ETH. Users stake frxETH into vault to receive sfrxETH, which accrues staking yield over time."
-            }
-        ],
-        "Stablecoin Users": [
-            {
-                "protocol_category": "Stablecoin",
-                "contract_address": "0x853d955aCEf822Db058eb8505911ED77F175b99e",
-                "contract_role": "FRAX Stablecoin Token",
-                "label_type": "Contract",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "11663858",
-                "abi_url": "",
-                "notes": "FRAX stablecoin (fractional-algorithmic USD). Supply expands/contracts via AMOs to hold $1 peg; backed by crypto collateral & governance."
-            },
-            {
-                "protocol_category": "Stablecoin",
-                "contract_address": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
-                "contract_role": "DAI Stablecoin Token",
-                "label_type": "Contract",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "8914025",
-                "abi_url": "",
-                "notes": "DAI stablecoin (ERC-20) by MakerDAO. Soft-pegged to USD, generated by collateralized debt positions in Maker's protocol."
-            },
-            {
-                "protocol_category": "Stablecoin",
-                "contract_address": "0x5f98805a4E8be255a32880FDeC7F6728C6568Ba0",
-                "contract_role": "LUSD Stablecoin Token",
-                "label_type": "Contract",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "12045000",
-                "abi_url": "",
-                "notes": "LUSD token by Liquity – USD-pegged stablecoin minted by fully ETH-collateralized loans (no governance). Redemption always possible for $1 of ETH."
-            }
-        ]
-    },
-    "NFT & Metaverse Enthusiast": {
-        "Collectors & Speculators": [],
-        "Creators & Minters": [],
-        "NFT Gamers": [],
-        "Metaverse Inhabitants": []
-    },
-    "Governance Participant (DAO Member)": {
-        "Voters & Proposal Interactors / Governance Token Holders": [
-            {
-                "protocol_category": "DEX (AMM)",
-                "contract_address": "0x0000000022D53366457F9d5E68Ec105046FC4383",
-                "contract_role": "Curve DAO (veCRV) Proxy",
-                "label_type": "Proxy",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "10647894",
-                "abi_url": "",
-                "notes": "Curve VotingEscrow (veCRV) contract proxy – time-locks CRV for voting power (not a pool)."
-            },
-            {
-                "protocol_category": "DEX (AMM)",
-                "contract_address": "0x5f3b5DfEb7B28CDbD7FAba78963EE202a494e2A2",
-                "contract_role": "Curve DAO (veCRV) Implementation",
-                "label_type": "Contract",
-                "source_url": "",
-                "etherscan_verified": "Yes",
-                "first_block": "10647884",
-                "abi_url": "",
-                "notes": "Implementation for VotingEscrow (veCRV). Proxy target for locking CRV tokens."
-            }
-        ]
-    },
-    "Blockchain Gamer (Deep Integration)": {
-        "On-Chain Game Logic & P2E Users": []
-    },
-    "Cross-Chain & Scalability Seeker": {
-        "Bridge Users": [],
-        "Layer 2 Adopters": []
-    },
-    "Emerging & Specialized": {
-        "Airdrop Hunters": [],
-        "RWA Investors & Protocol Users": [],
-        "Decentralized Identity (DID) Users": [],
-        "Decentralized Social (DeSoc) Users": [],
-        "Builder & Deployer": []
-    }
+    "Traders (DEX Users, Arbitrageurs, MEV Searchers)": [
+        {
+            "application": "Uniswap V2",
+            "protocol_category": "DEX (AMM)",
+            "contract_address": "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f",
+            "contract_role": "UniswapV2 Factory",
+            "label_type": "Contract",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "10000835",
+            "abi_url": "",
+            "notes": "Factory for Uniswap V2 pools (Pairs) on Ethereum; emits PairCreated events for each new pool."
+        },
+        {
+            "application": "Uniswap V2",
+            "protocol_category": "DEX (AMM)",
+            "contract_address": "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
+            "contract_role": "UniswapV2 Router02",
+            "label_type": "Contract",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "10207858",
+            "abi_url": "",
+            "notes": "Primary router for Uniswap V2 on Ethereum (provides swap/add liquidity functions)."
+        },
+        {
+            "application": "Uniswap V3",
+            "protocol_category": "DEX (AMM)",
+            "contract_address": "0x1F98431c8aD98523631AE4a59f267346ea31F984",
+            "contract_role": "UniswapV3 Factory",
+            "label_type": "Contract",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "12369621",
+            "abi_url": "",
+            "notes": "Factory for Uniswap V3 pools on Ethereum; deploys new pools for each token pair & fee tier."
+        },
+        {
+            "application": "Uniswap V3",
+            "protocol_category": "DEX (AMM)",
+            "contract_address": "0xE592427A0AEce92De3Edee1F18E0157C05861564",
+            "contract_role": "UniswapV3 SwapRouter (V1)",
+            "label_type": "Contract",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "12537778",
+            "abi_url": "",
+            "notes": "Uniswap V3 periphery SwapRouter (single-path swaps)."
+        },
+        {
+            "application": "Uniswap V3",
+            "protocol_category": "DEX (AMM)",
+            "contract_address": "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45",
+            "contract_role": "UniswapV3 SwapRouter02",
+            "label_type": "Contract",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "14737933",
+            "abi_url": "",
+            "notes": "Updated Uniswap V3 router supporting multi-hop swaps and permit2."
+        },
+        {
+            "application": "Curve Finance",
+            "protocol_category": "DEX (AMM)",
+            "contract_address": "0xAa5A67c256e27A5d80712c51971408db3370927D",
+            "contract_role": "Curve StableSwapFactory",
+            "label_type": "Contract",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "12909468",
+            "abi_url": "",
+            "notes": "Curve factory for metapools (deploys new StableSwap pools). Facilitates creating new Curve liquidity pools permissionlessly."
+        },
+        {
+            "application": "Curve Finance",
+            "protocol_category": "DEX (AMM)",
+            "contract_address": "0xE2e6D4BE086c6938B53B22144855eef674281639",
+            "contract_role": "Curve CryptoSwapFactory",
+            "label_type": "Contract",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "13306628",
+            "abi_url": "",
+            "notes": "Curve factory for crypto pools (non-stable assets)."
+        }
+    ],
+    "Lenders & Borrowers": [
+        {
+            "application": "Aave V3 (Ethereum)",
+            "protocol_category": "Lending",
+            "contract_address": "0x87870bca3f3fd6335c3f4ce8392d69350b4fa4e2",
+            "contract_role": "Pool (LendingPool proxy)",
+            "label_type": "Proxy",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "12914914",
+            "abi_url": "",
+            "notes": "Main Aave V3 liquidity pool proxy on Ethereum; manages deposits, borrows, and repayments."
+        },
+        {
+            "application": "Aave V3 (Ethereum)",
+            "protocol_category": "Lending",
+            "contract_address": "0x2f39d4d1973e5df8e0dcd69b4ad8fc09c71b4e9e",
+            "contract_role": "PoolAddressesProvider",
+            "label_type": "Proxy",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "12914907",
+            "abi_url": "",
+            "notes": "Registry of pool addresses (upgradeable); holds references to Pool, Configurator, etc."
+        },
+        {
+            "application": "Aave V3 (Ethereum)",
+            "protocol_category": "Lending",
+            "contract_address": "0x64b761d848206f447fe2dd461b0c635ec848bB27",
+            "contract_role": "PoolConfigurator",
+            "label_type": "Proxy",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "12914919",
+            "abi_url": "",
+            "notes": "Manages listing & configuration of Aave V3 assets (reserves, collateral parameters)."
+        },
+        {
+            "application": "Aave V3 (Ethereum)",
+            "protocol_category": "Lending",
+            "contract_address": "0xc2aa15dc299eaeb7f8e4e8c0d6bf84c1c9c885b0",
+            "contract_role": "ACLManager",
+            "label_type": "Proxy",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "12914943",
+            "abi_url": "",
+            "notes": "Access Control manager for permissions (governance roles) in Aave V3."
+        },
+        {
+            "application": "Aave V3 (Ethereum)",
+            "protocol_category": "Lending",
+            "contract_address": "0x8164cc65827dcfe994ab23944cbc90e0aa80bFcb",
+            "contract_role": "DefaultIncentivesController",
+            "label_type": "Proxy",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "12915015",
+            "abi_url": "",
+            "notes": "Rewards distribution controller for Aave V3 (handles reward emissions to suppliers/borrowers)."
+        },
+        {
+            "application": "Aave V2 (Ethereum)",
+            "protocol_category": "Lending",
+            "contract_address": "0xb53c1a33016b2dc2ff3653530bff1848a515c8c5",
+            "contract_role": "LendingPoolAddressesProvider",
+            "label_type": "Proxy",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "10001074",
+            "abi_url": "",
+            "notes": "Registry for Aave V2 core contract addresses (mainnet market). Provides the address of the active LendingPool."
+        },
+        {
+            "application": "Aave V2 (Ethereum)",
+            "protocol_category": "Lending",
+            "contract_address": "0x7d2768dE32b0b80b7a3454c06BdAcA9cFafc97eA",
+            "contract_role": "LendingPool",
+            "label_type": "Proxy",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "11362579",
+            "abi_url": "",
+            "notes": "Main Aave V2 liquidity pool proxy; handles user deposits, borrows, repayments (deprecated by V3)."
+        },
+        {
+            "application": "MakerDAO (Spark)",
+            "protocol_category": "Lending",
+            "contract_address": "0x19c0976f590D67707E62397C87829d896Dc0f1F1",
+            "contract_role": "Spark Lend DAI Market (v3 Pool)",
+            "label_type": "Proxy",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "17789123",
+            "abi_url": "",
+            "notes": "Spark Protocol's DAI lending pool (on Ethereum) – a MakerDAO-endorsed fork of Aave V3 for DAI lending. Integrates DAI Savings Rate for enhanced yield."
+        },
+        {
+            "application": "Compound V2",
+            "protocol_category": "Lending",
+            "contract_address": "0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B",
+            "contract_role": "Comptroller (Unitroller) Proxy",
+            "label_type": "Proxy",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "7710757",
+            "abi_url": "",
+            "notes": "Compound v2 Comptroller proxy – risk parameter manager & entry point for Compound markets. Each market's interest rates & liquidity are controlled via this."
+        },
+        {
+            "application": "Compound V2",
+            "protocol_category": "Lending",
+            "contract_address": "0x39AA39c021dfbaE8faC545936693aC917d5E7563",
+            "contract_role": "cUSDC Interest Bearing Token",
+            "label_type": "Proxy",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "7710795",
+            "abi_url": "",
+            "notes": "Compound v2 cUSDC market proxy (implementation cToken) – users supply USDC and receive cUSDC. Earns interest via increasing exchange rate."
+        },
+        {
+            "application": "Compound V3 (USDC)",
+            "protocol_category": "Lending",
+            "contract_address": "0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+            "contract_role": "Compound V3 USDC Primary Pool",
+            "label_type": "Proxy",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "15208012",
+            "abi_url": "",
+            "notes": "Compound III (Comet) USDC market proxy. Isolated lending pool with USDC as base asset (supplied/borrowed) and multiple collateral assets."
+        }
+    ],
+    "Liquidity Providers & Yield Farmers": [
+        {
+            "application": "Uniswap V3",
+            "protocol_category": "DEX (AMM)",
+            "contract_address": "0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
+            "contract_role": "UniswapV3 NFT Position Manager",
+            "label_type": "Proxy",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "12387316",
+            "abi_url": "",
+            "notes": "Nonfungible Position Manager (Uniswap V3 LP positions as ERC-721 NFTs; includes mint/burn of liquidity positions)."
+        },
+        {
+            "application": "Curve Finance",
+            "protocol_category": "DEX (AMM)",
+            "contract_address": "0xd1B5651E55D4CeeD36251c61c50C889B36F6abB5",
+            "contract_role": "Curve TriCryptoPool (USDT/wBTC/ETH)",
+            "label_type": "Contract",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "13001929",
+            "abi_url": "",
+            "notes": "Example Curve V2 pool (TriCrypto); holds 3-crypto basket, one of largest pools on Ethereum."
+        }
+    ],
+    "Stakers (ETH & Liquid)": [
+        {
+            "application": "Lido (stETH)",
+            "protocol_category": "Liquid Staking (LSD)",
+            "contract_address": "0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84",
+            "contract_role": "Lido Staked ETH (stETH) Token",
+            "label_type": "Proxy",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "11273710",
+            "abi_url": "",
+            "notes": "Lido stETH token (rebasing) proxy contract. Users receive stETH upon staking ETH; balances update as rewards accrue."
+        },
+        {
+            "application": "Lido (stETH)",
+            "protocol_category": "Liquid Staking (LSD)",
+            "contract_address": "0xE0db3A1EF2581977eEdC0E7Da1e4C3E001Bc3b2F",
+            "contract_role": "Lido Staking Pool (v2) Contract",
+            "label_type": "Proxy",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "17137118",
+            "abi_url": "",
+            "notes": "Lido main staking contract (v2) – entry point for deposits. Accepts ETH and mints stETH; manages buffer & routing to node operators."
+        },
+        {
+            "application": "Lido (stETH)",
+            "protocol_category": "Liquid Staking (LSD)",
+            "contract_address": "0xB9D7DdDca9a4AC480991865E68b0Fff175D0c56b",
+            "contract_role": "Lido WithdrawalQueue (unstETH)",
+            "label_type": "Contract",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "17137118",
+            "abi_url": "",
+            "notes": "Lido Withdrawal Queue (ERC721) contract for Shapella-enabled withdrawals. Issues unstETH NFTs representing pending withdrawals."
+        },
+        {
+            "application": "Rocket Pool (rETH)",
+            "protocol_category": "Liquid Staking (LSD)",
+            "contract_address": "0xae78736Cd615f374D3085123A210448E74Fc6393",
+            "contract_role": "Rocket Pool rETH Token",
+            "label_type": "Contract",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "12244000",
+            "abi_url": "",
+            "notes": "Rocket Pool's rETH token (ERC-20) representing staked ETH. rETH appreciates as staking rewards accumulate."
+        },
+        {
+            "application": "Rocket Pool (rETH)",
+            "protocol_category": "Liquid Staking (LSD)",
+            "contract_address": "0xDD3f50F8A6CafbE9b31a427582963f465E745AF8",
+            "contract_role": "RocketPool Deposit Pool",
+            "label_type": "Contract",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "12244000",
+            "abi_url": "",
+            "notes": "Rocket Pool deposit contract – users send ETH here to mint rETH. Holds incoming ETH before assigning to node operators."
+        },
+        {
+            "application": "Rocket Pool (rETH)",
+            "protocol_category": "Liquid Staking (LSD)",
+            "contract_address": "0x1d8f8f00cfa6758d7bE78336684788Fb0ee0Fa46",
+            "contract_role": "RocketStorage",
+            "label_type": "Contract",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "12244000",
+            "abi_url": "",
+            "notes": "Rocket Pool core storage contract. Stores addresses of all Rocket Pool sub-contracts and config; acts as an on-chain registry."
+        },
+        {
+            "application": "Coinbase (cbETH)",
+            "protocol_category": "Liquid Staking (LSD)",
+            "contract_address": "0xBe9895146f7AF43049ca1c1AE358B0541Ea49704",
+            "contract_role": "Coinbase Wrapped Staked ETH (cbETH)",
+            "label_type": "Contract",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "15259166",
+            "abi_url": "",
+            "notes": "Coinbase's liquid staked ETH token (cbETH). ERC-20 wrapper for staked ETH; accrues rewards via increasing exchange rate."
+        },
+        {
+            "application": "Frax Finance (frxETH)",
+            "protocol_category": "Liquid Staking (LSD)",
+            "contract_address": "0x5E8422345238F34275888049021821E8E08CAa1f",
+            "contract_role": "Frax ETH (frxETH) Token",
+            "label_type": "Contract",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "15544931",
+            "abi_url": "",
+            "notes": "Frax Ether token (frxETH) – stable-value token minted 1:1 for each ETH staked into Frax's LSD system. Can be further staked to earn yield."
+        },
+        {
+            "application": "Frax Finance (sfrxETH)",
+            "protocol_category": "Liquid Staking (LSD)",
+            "contract_address": "0xac3E018457B222d93114458476f3E3416Abbe38F",
+            "contract_role": "Staked Frax Ether (sfrxETH) Vault",
+            "label_type": "Contract",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "15544931",
+            "abi_url": "",
+            "notes": "Yield-bearing vault token (ERC-4626) for Frax ETH. Users stake frxETH into vault to receive sfrxETH, which accrues staking yield over time."
+        }
+    ],
+    "Stablecoin Users": [
+        {
+            "application": "Frax Finance (FRAX)",
+            "protocol_category": "Stablecoin",
+            "contract_address": "0x853d955aCEf822Db058eb8505911ED77F175b99e",
+            "contract_role": "FRAX Stablecoin Token",
+            "label_type": "Contract",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "11663858",
+            "abi_url": "",
+            "notes": "FRAX stablecoin (fractional-algorithmic USD). Supply expands/contracts via AMOs to hold $1 peg; backed by crypto collateral & governance."
+        },
+        {
+            "application": "MakerDAO (DAI)",
+            "protocol_category": "Stablecoin",
+            "contract_address": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+            "contract_role": "DAI Stablecoin Token",
+            "label_type": "Contract",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "8914025",
+            "abi_url": "",
+            "notes": "DAI stablecoin (ERC-20) by MakerDAO. Soft-pegged to USD, generated by collateralized debt positions in Maker's protocol."
+        },
+        {
+            "application": "Liquity (LUSD)",
+            "protocol_category": "Stablecoin",
+            "contract_address": "0x5f98805a4E8be255a32880FDeC7F6728C6568Ba0",
+            "contract_role": "LUSD Stablecoin Token",
+            "label_type": "Contract",
+            "source_url": "",
+            "etherscan_verified": "Yes",
+            "first_block": "12045000",
+            "abi_url": "",
+            "notes": "LUSD token by Liquity – USD-pegged stablecoin minted by fully ETH-collateralized loans (no governance). Redemption always possible for $1 of ETH."
+        }
+    ]
 }

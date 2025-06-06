@@ -1,0 +1,21 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+File header will have this format:
+- Name
+- Path
+- Description
+
+The monorepo root will ALWAYS be: "seven7s"
+
+**Example:**
+'''
+Architecture File Consolidation
+---
+seven7s/utils/architecture.py
+---
+Consolidates all architecture.md files from the project modules and monorepo
+into a single consolidated_architectures.txt file in the .repomix directory.
+'''

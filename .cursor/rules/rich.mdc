@@ -1,0 +1,126 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+**[CURSOR RULE] Enhanced Console Output with `rich`**
+
+**Objective:** To produce console output that is highly readable, informative, structured, and visually appealing by leveraging the `rich` library in Python.
+
+**Core Principles:**
+
+1.  **Clarity First:** Formatting should enhance understanding, not obscure it.
+2.  **Structure:** Visually group related information and separate distinct phases of execution.
+3.  **Emphasis:** Use color and style to draw attention to important information (e.g., successes, warnings, errors, key values).
+4.  **User Feedback:** Provide feedback for long-running operations.
+5.  **Consistency:** Maintain a consistent style throughout the application.
+
+**Implementation Guidelines:**
+
+1.  **Foundation - `Console` Object:**
+    *   Always instantiate a `rich.console.Console` object at the beginning of the script (e.g., `console = Console()`).
+    *   Use this `console.print()` method for all direct output to the terminal instead of the built-in `print()`.
+
+2.  **Styling with Markup:**
+    *   Utilize `rich`'s bbcode-like markup for inline styling. Examples:
+        *   `console.print("[bold green]Success![/bold green]")`
+        *   `console.print("[yellow]Warning: File not found.[/yellow]")`
+        *   `console.print("[bold red]ERROR: Critical failure.[/bold red]")`
+        *   `console.print("Processing file: [cyan]{filename}[/cyan]")` (using f-strings with markup)
+    *   Common styles: `bold`, `italic`, `underline`, color names (e.g., `red`, `green`, `blue`, `yellow`, `magenta`, `cyan`, `white`, `black`), and `bright_` versions (e.g., `bright_green`).
+
+3.  **Structuring Information - `Panel` and `Rule`:**
+    *   **`Panel`:** Use `rich.panel.Panel` to encapsulate distinct sections of output, summaries, or important messages.
+        *   Provide a `title` for the panel (which can also be styled).
+        *   Customize `border_style`.
+        *   Example: `console.print(Panel("Operation complete.", title="[white]Status[/white]", border_style="green"))`
+    *   **`Rule`:** Use `rich.rule.Rule` to create horizontal separators, visually dividing sections of output.
+        *   Provide a `title` for the rule if needed.
+        *   Customize `style` for the line.
+        *   Example: `console.print(Rule("[bold blue]Starting Data Processing[/bold blue]", style="blue"))`
+
+4.  **Logging with `RichHandler`:**
+    *   Integrate `rich.logging.RichHandler` with Python's standard `logging` module.
+    *   This will automatically style log messages (INFO, WARNING, ERROR, etc.) printed to the console.
+    *   Configure it with options like `rich_tracebacks=True` (for beautifully formatted exception tracebacks), `markup=True` (to use `rich` markup in log messages), and `show_path=False` (to simplify logger names).
+    *   Example setup:
+        ```python
+        import logging
+        from rich.logging import RichHandler
+        logging.basicConfig(
+            level="INFO",
+            format="%(message)s", # RichHandler handles detailed formatting
+            datefmt="[%X]",
+            handlers=[RichHandler(console=console, rich_tracebacks=True, markup=True, show_path=False)]
+        )
+        logger = logging.getLogger("my_app")
+        logger.info("This is an [blue]informative[/blue] message.")
+        ```
+
+5.  **Displaying Tabular Data - `Table`:**
+    *   When presenting structured data (like a list of items with attributes), use `rich.table.Table`.
+    *   Define columns, add rows, and customize styling for headers and cells.
+    *   Example:
+        ```python
+        from rich.table import Table
+        table = Table(title="Scan Results")
+        table.add_column("File", style="cyan")
+        table.add_column("Status", style="green")
+        table.add_row("file1.txt", "Processed")
+        console.print(table)
+        ```
+
+6.  **Progress Bars - `Progress`:**
+    *   For long-running loops or operations, use `rich.progress.Progress` to provide visual feedback to the user.
+    *   Combine different `Column` types (e.g., `SpinnerColumn`, `BarColumn`, `TextColumn`, `TimeElapsedColumn`, `TimeRemainingColumn`).
+    *   Example:
+        ```python
+        from rich.progress import Progress
+        with Progress(console=console) as progress:
+            task = progress.add_task("[cyan]Processing items...", total=100)
+            for i in range(100):
+                # ... do work ...
+                progress.update(task, advance=1)
+        ```
+
+7.  **Complex Text Layouts - `Text` Object:**
+    *   For more intricate text compositions with varying styles on the same line or paragraph, use the `rich.text.Text` object.
+    *   Append styled segments to it.
+    *   Example:
+        ```python
+        from rich.text import Text
+        text = Text()
+        text.append("File: ", style="bold")
+        text.append("data.csv", style="cyan underline")
+        text.append(" - Status: ", style="bold")
+        text.append("OK", style="green")
+        console.print(text)
+        ```
+
+8.  **Error and Exception Handling:**
+    *   Ensure `RichHandler` is configured with `rich_tracebacks=True`.
+    *   Catch exceptions and use `console.print_exception()` for `rich`-formatted tracebacks if not using `RichHandler` for all logging, or `logger.exception()` if `RichHandler` is active.
+    *   Use `Panel` with a `border_style="red"` for critical error messages.
+
+**When to Apply:**
+
+*   **Welcome/Exit Messages:** Use `Panel` or styled text.
+*   **Section Headers:** Use `Rule` or `Panel`.
+*   **Status Updates:** Use styled text (e.g., "Processing...", "Fetching...", "Saving...").
+*   **Key Information/Results:** Use `Panel` or styled `Text` to highlight.
+*   **Summaries:** Use `Panel` and potentially `Table`.
+*   **Loops/Batch Operations:** Use `Progress`.
+*   **Logging:** Always integrate `RichHandler` for console logs.
+*   **Errors/Warnings:** Use distinct colors and `bold` style.
+
+**General Advice:**
+
+*   **Don't Overdo It:** While `rich` is powerful, avoid making the console look like a "Christmas tree." Use styling purposefully to improve readability, not just for decoration.
+*   **Consider the Audience:** If the output is for technical users, more detail might be fine. For less technical users, keep it cleaner.
+*   **Test:** View the output on different terminal emulators if possible, though `rich` is generally very good at cross-platform rendering.
+*   **Refer to `rich` Documentation:** It's excellent and full of examples: [https://rich.readthedocs.io/](https://rich.readthedocs.io/)
+
+By following these guidelines, any console application can have significantly improved, user-friendly output.
+
+
+---

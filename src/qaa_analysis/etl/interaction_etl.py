@@ -60,24 +60,23 @@ def load_contract_map() -> Tuple[List[str], Dict[str, Dict[str, str]]]:
     contract_addresses = []
     address_metadata = {}
     
-    # Iterate through the nested structure
-    for participant_type, user_archetypes in contract_map.items():
-        for user_archetype, contracts in user_archetypes.items():
-            for contract in contracts:
-                address = contract["contract_address"].lower()
-                contract_addresses.append(address)
-                
-                # Store metadata for this address
-                address_metadata[address] = {
-                    "participant_type": participant_type,
-                    "user_archetype": user_archetype,
-                    "protocol_category": contract["protocol_category"],
-                    "contract_role": contract["contract_role"],
-                    "label_type": contract["label_type"],
-                    "etherscan_verified": contract["etherscan_verified"],
-                    "first_block": contract["first_block"],
-                    "notes": contract.get("notes", "")
-                }
+    # Iterate through the structure: user_type -> list of contracts
+    for user_type, contracts in contract_map.items():
+        for contract in contracts:
+            address = contract["contract_address"].lower()
+            contract_addresses.append(address)
+            
+            # Store metadata for this address
+            address_metadata[address] = {
+                "user_type": user_type,
+                "application": contract["application"],
+                "protocol_category": contract["protocol_category"],
+                "contract_role": contract["contract_role"],
+                "label_type": contract["label_type"],
+                "etherscan_verified": contract["etherscan_verified"],
+                "first_block": contract["first_block"],
+                "notes": contract.get("notes", "")
+            }
     
     # Remove duplicates while preserving order
     unique_addresses = list(dict.fromkeys(contract_addresses))
@@ -222,8 +221,8 @@ def validate_interactions_dataframe(df: pd.DataFrame, operation: str) -> bool:
     
     # Check for required enrichment columns
     required_enrichment_columns = [
-        "participant_type",
-        "user_archetype", 
+        "user_type",
+        "application", 
         "protocol_category",
         "contract_role"
     ]
@@ -285,6 +284,72 @@ def save_dataframe_safely(df: pd.DataFrame, output_path: Path, operation: str) -
     except Exception as e:
         logger.error(f"{operation}: Failed to save DataFrame - {e}", exc_info=True)
         return False
+
+
+def analyze_contract_map() -> None:
+    """
+    Analyze and display statistics about the DeFi contract map.
+    
+    This function provides insights into the contract mapping structure,
+    including user type distribution, protocol categories, and contract roles.
+    """
+    logger = setup_logging()
+    logger.info("=" * 60)
+    logger.info("Analyzing DeFi Contract Map")
+    logger.info("=" * 60)
+    
+    try:
+        # Load contract map
+        contract_addresses, address_metadata = load_contract_map()
+        
+        # Convert to DataFrame for easier analysis
+        df = pd.DataFrame.from_dict(address_metadata, orient='index')
+        df.index.name = 'contract_address'
+        df = df.reset_index()
+        
+        logger.info(f"Total unique contracts: {len(df)}")
+        logger.info("")
+        
+        # User type distribution
+        logger.info("User Type Distribution:")
+        user_type_counts = df['user_type'].value_counts()
+        for user_type, count in user_type_counts.items():
+            logger.info(f"  {user_type}: {count} contracts")
+        logger.info("")
+        
+        # Protocol category distribution
+        logger.info("Protocol Category Distribution:")
+        protocol_counts = df['protocol_category'].value_counts()
+        for protocol, count in protocol_counts.items():
+            logger.info(f"  {protocol}: {count} contracts")
+        logger.info("")
+        
+        # Application distribution
+        logger.info("Application Distribution:")
+        app_counts = df['application'].value_counts()
+        for app, count in app_counts.head(10).items():
+            logger.info(f"  {app}: {count} contracts")
+        logger.info("")
+        
+        # Contract role distribution
+        logger.info("Contract Role Distribution:")
+        role_counts = df['contract_role'].value_counts()
+        for role, count in role_counts.head(10).items():
+            logger.info(f"  {role}: {count} contracts")
+        logger.info("")
+        
+        # Cross-tabulation: User Type vs Protocol Category
+        logger.info("User Type vs Protocol Category Cross-tabulation:")
+        crosstab = pd.crosstab(df['user_type'], df['protocol_category'])
+        logger.info(f"\n{crosstab}")
+        
+        logger.info("=" * 60)
+        logger.info("Contract Map Analysis Complete")
+        logger.info("=" * 60)
+        
+    except Exception as e:
+        logger.error(f"Contract map analysis failed: {e}", exc_info=True)
+        raise
 
 
 def main() -> None:
@@ -443,4 +508,9 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main() 
+    import sys
+    
+    if len(sys.argv) > 1 and sys.argv[1] == "analyze":
+        analyze_contract_map()
+    else:
+        main() 
