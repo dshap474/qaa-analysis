@@ -1,0 +1,163 @@
+Excellent. Now that you have your `master_contract_list.json`, let's move on to the next critical piece of the puzzle.
+
+Here are the step-by-step instructions for **Step 2: Create a Dictionary of Actions (The "Behaviors")**.
+
+The goal of this step is to build a "Rosetta Stone"—a lookup table that maps human-readable actions (like "swap" or "borrow") to their technical on-chain identifiers (their function and event selectors). This allows your program to understand *what is happening* inside a transaction.
+
+---
+
+### **The Concept: What Are We Building?**
+
+We will create a structured data file (a JSON file) that acts as our dictionary. For each important user action, we will store its unique identifiers.
+
+*   **Function Selector:** The 4-byte hash of the function's signature. This tells you what command the user *intended* to execute.
+*   **Event Selector (Topic0):** The 32-byte hash of the event's signature. This tells you what the contract *actually did* and recorded publicly. **This is often the most reliable signal for analysis.**
+
+---
+
+### **Part A: How to Find Selectors**
+
+This is the core research task. You need to find the signatures for the actions you care about. Here are two primary methods.
+
+#### **Method 1: Using Etherscan (The Easy Way)**
+
+Etherscan does all the hard work for you. Let's find the selectors for a Uniswap V2 swap.
+
+1.  **Navigate to a Core Contract:** Go to the [Uniswap V2 Router 02 contract page](https://etherscan.io/address/0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D) on Etherscan.
+2.  **Find Function Signatures:**
+    *   Click on the **Contract** tab.
+    *   Click on the **Write Contract** button.
+    *   You will see a list of all the functions you can call. Look for #11, `swapExactTokensForTokens`. The text displayed is the **function signature**: `swapExactTokensForTokens(uint256 amountIn, uint256 amountOutMin, address[] path, address to, uint256 deadline)`. We'll use this to get the selector.
+3.  **Find Event Signatures:**
+    *   Events are not emitted by the Router, but by the individual Pair contracts that the Router calls.
+    *   Go to a transaction that involved a swap, like [this one](https://etherscan.io/tx/0x1c3b873335925e9e415195e55fd0b37e15e83257975b0e38113b69f725327618).
+    *   Click on the **Logs** tab.
+    *   You'll see several logs. The one we care about is the `Swap` event. You can see its name and the data it contains. The **Topic0** is the event selector: `0xd78ad95fa46c994b6551d0da85fc275fe613ce37657fb8d5e3d130840159d822`.
+
+#### **Method 2: Calculating Selectors Manually (The Technical Way)**
+
+You can also calculate these selectors yourself if you know the signature. This is useful for verification or for contracts that are not verified on Etherscan.
+
+Create a new Python script (e.g., `calculate_selectors.py`) to do this.
+
+```python
+from web3 import Web3
+
+# --- Function Selector Calculation ---
+# Signature format: functionName(type1,type2,...) NO SPACES
+function_signature_text = "swapExactTokensForTokens(uint256,uint256,address[],address,uint256)"
+
+# Hash the signature using Keccak-256
+full_hash = Web3.keccak(text=function_signature_text)
+
+# The selector is the first 4 bytes (8 hex characters + '0x')
+function_selector = full_hash.hex()[:10]
+
+print(f"Function Signature: {function_signature_text}")
+print(f"Function Selector:  {function_selector}") # Should be 0x38ed1739
+
+print("-" * 20)
+
+# --- Event Selector (Topic0) Calculation ---
+# Signature format is the same
+event_signature_text = "Swap(address,address,uint256,uint256)"
+
+# The event selector is the FULL 32-byte hash
+event_selector = Web3.keccak(text=event_signature_text).hex()
+
+print(f"Event Signature: {event_signature_text}")
+print(f"Event Selector:   {event_selector}") # Should match the Topic0 from Etherscan
+```
+
+---
+
+### **Part B: Build Your Action Dictionary**
+
+Now, repeat the process from Part A for all the key actions you want to track and assemble them into a single file.
+
+#### **Step B.1: Create the Python Script**
+
+Create a new Python file named `build_action_dictionary.py`.
+
+```python
+import json
+
+# This dictionary will be our "Rosetta Stone"
+ACTION_DICTIONARY = {
+    "Uniswap V2": {
+        "swap": {
+            "function_selector": "0x38ed1739",
+            "function_signature": "swapExactTokensForTokens(uint256,uint256,address[],address,uint256)",
+            "event_selector": "0xd78ad95fa46c994b6551d0da85fc275fe613ce37657fb8d5e3d130840159d822",
+            "event_signature": "Swap(address,address,uint256,uint256)",
+            "notes": "A standard token-for-token swap."
+        },
+        "add_liquidity": {
+            "function_selector": "0xe8e33700",
+            "function_signature": "addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256)",
+            "event_selector": "0x0d3648bd0f6ba80134a33ba9275ac585d9d315f0ad8355cddefde31afa28d0e9", # Note: This is the PairCreated event from the factory
+            "event_signature": "Mint(address,uint256,uint256)", # The actual liquidity event is Mint
+            "notes": "Adding liquidity to a V2 pool."
+        }
+    },
+    "Aave V3": {
+        "supply": {
+            "function_selector": "0x617ba037", # Note: This is the selector for supply() on the Pool contract
+            "function_signature": "supply(address,uint256,address,uint16)",
+            "event_selector": "0x2b6277e241c274215d34533a3dc7dbf3a272b38b489364426ca562d03262a7cf",
+            "event_signature": "Supply(address,address,uint256,uint16,uint256)",
+            "notes": "Supplying an asset to the lending pool to earn interest."
+        },
+        "borrow": {
+            "function_selector": "0x4b8a3529", # Note: This is the selector for borrow() on the Pool contract
+            "function_signature": "borrow(address,uint256,uint256,uint16,address)",
+            "event_selector": "0xc6a898309e823ee502b0725ac9fcd63a4151450b18579810de223f20f2aae360",
+            "event_signature": "Borrow(address,address,address,uint256,uint8,uint256,uint16)",
+            "notes": "Borrowing an asset against supplied collateral."
+        }
+    },
+    # Add other protocols and actions here (e.g., Compound, Curve, Lido)
+    "Compound V2": {
+        "supply": {
+            "function_selector": "0xa0712d68",
+            "function_signature": "mint(uint256)",
+            "event_selector": "0x4c209b5fc8ad50758f13e2e1088ba56a560dff690a1c6fef26394f4c03821c4f",
+            "event_signature": "Mint(address,uint256,uint256)",
+            "notes": "Supplying an asset to a cToken market (equivalent to Aave's supply)."
+        },
+        "redeem": {
+            "function_selector": "0xdb006a75",
+            "function_signature": "redeem(uint256)",
+            "event_selector": "0xe5b754fb1abb7f01b499791d0b820ae3b6af3424ac1c59768edb53f4ec31a929",
+            "event_signature": "Redeem(address,uint256,uint256)",
+            "notes": "Withdrawing an underlying asset from a cToken market."
+        }
+    }
+}
+```
+
+#### **Step B.2: Save the Dictionary to a File**
+
+Add this to the end of your `build_action_dictionary.py` script to save your work.
+
+```python
+# Save the final dictionary to a JSON file
+output_filename = "action_dictionary.json"
+with open(output_filename, 'w') as f:
+    json.dump(ACTION_DICTIONARY, f, indent=2)
+
+print(f"✅ Success! Action dictionary created.")
+print(f"Data saved to {output_filename}")
+```
+
+---
+
+### **Summary of Step 2**
+
+After completing this step, you will have:
+
+1.  **Learned how to find** the function and event selectors that correspond to specific user behaviors on-chain.
+2.  **Built a structured dictionary** mapping human-readable actions (`swap`, `supply`, `borrow`) to their technical identifiers.
+3.  **Produced an `action_dictionary.json` file.** This file is the second key input for your analysis engine.
+
+You are now fully prepared for **Step 3**, where we will combine the "venues" from Step 1 with the "behaviors" from Step 2 to start analyzing live transactions and classifying user addresses.
